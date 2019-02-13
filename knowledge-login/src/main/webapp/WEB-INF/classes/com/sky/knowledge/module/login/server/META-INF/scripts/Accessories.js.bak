@@ -1,0 +1,45 @@
+/**
+ * ��ʼ��
+ */
+
+function isfix()
+{
+					var ua = navigator.userAgent.toLowerCase();
+					
+					var cachedAvailable = false;
+					  if (typeof window["ActiveXObject"] != "undefined") {
+							  try {
+							    var obj = new ActiveXObject("ChromeTab.ChromeFrame");
+							    if (obj) {
+							    	
+							      cachedAvailable = true;
+							    }
+							  } catch(e) {
+
+							  }
+							}
+						
+						if (ua.indexOf("chrome") >= 0 || ua.indexOf("x-clock") >= 0 ||ua.indexOf("firefox")>= 0) {
+							cachedAvailable = true;		
+						}
+
+						if(cachedAvailable){  											 
+						}else{																			   
+						      Ext.Msg.show({ 
+						        title:"温馨提示", 
+						        msg:"财务资助系统提醒你如果你安装该插件可提升你系统的访问速度，请点击确定下载！", 
+						        buttons:Ext.Msg.YESNO, 
+						        icon:Ext.MessageBox.WARNING, 
+						        fn:function(button){
+						        	 if(button=="yes"){ 
+						    	      document.location.href='../images/login/ChromeFrameSetup.zip';						    	     
+									    											
+						           }else{
+						          
+						           	}
+						        	} 
+						        
+						    }); 				
+							}
+				
+}

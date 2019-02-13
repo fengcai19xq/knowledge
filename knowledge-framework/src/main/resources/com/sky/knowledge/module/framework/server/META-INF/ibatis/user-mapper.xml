@@ -1,0 +1,639 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sky.knowledge.module.framework.shared.domain.User">
+	<resultMap id="userResultMap"
+		type="com.sky.knowledge.module.framework.shared.domain.User">
+		<id property="id" column="MASTER_ID" />
+		<result property="loginName" column="MASTER_LOGINNAME" />
+		<result property="password" column="MASTER_PASSWORD" />
+		<result property="lastLogin" column="MASTER_LASTLOGIN" />
+		<result property="status" column="MASTER_STATUS" />
+		<result property="invalidDate" column="MASTER_INVALIDDATE" />
+		<result property="validDate" column="MASTER_VALIDDATE" />
+		<result property="createUser" column="MASTER_CREATEUSER"
+			javaType="String" jdbcType="VARCHAR" />
+		<result property="createDate" column="MASTER_CREATEDATE"
+			javaType="Date" jdbcType="TIMESTAMP" />
+		<result property="modifyUser" column="MASTER_MODIFYUSER"
+			javaType="String" jdbcType="VARCHAR" />
+		<result property="modifyDate" column="MASTER_MODIFYDATE"
+			javaType="Date" jdbcType="TIMESTAMP" />
+		<association property="empCode" column="ENTRY_0_EMPCODE"
+			javaType="com.sky.knowledge.module.framework.shared.domain.Employee">
+			<id property="id" column="ENTRY_0_ID" />
+			<result property="deptId" column="ENTRY_0_DEPTID" />
+			<result property="empCode" column="ENTRY_0_EMPCODE" />
+			<result property="empName" column="ENTRY_0_EMPNAME" />
+			<result property="gender" column="ENTRY_0_GENDER" />
+			<result property="birthdate" column="ENTRY_0_BIRTHDATE" />
+			<result property="status" column="ENTRY_0_STATUS" />
+			<result property="inDate" column="ENTRY_0_INDATE" />
+			<result property="outDate" column="ENTRY_0_OUTDATE" />
+			<result property="offerTel" column="ENTRY_0_OTEL" />
+			<result property="offerAddress" column="ENTRY_0_OADDRESS" />
+			<result property="offerZipCode" column="ENTRY_0_OZIPCODE" />
+			<result property="offerEmail" column="ENTRY_0_OEMAIL" />
+			<result property="mobileNumber" column="ENTRY_0_MOBILENO" />
+			<result property="homeTel" column="ENTRY_0_HTEL" />
+			<result property="homeAddress" column="ENTRY_0_HADDRESS" />
+			<result property="homeZipCode" column="ENTRY_0_HZIPCODE" />
+			<result property="personEmail" column="ENTRY_0_PEMAIL" />
+			<result property="workExp" column="ENTRY_0_WORKEXP" />
+			<result property="remark" column="ENTRY_0_REMARK" />
+			<result property="createUser" column="ENTRY_0_CREATEUSER"
+				javaType="String" jdbcType="VARCHAR" />
+			<result property="createDate" column="ENTRY_0_CREATEDATE"
+				javaType="Date" jdbcType="TIMESTAMP" />
+			<result property="modifyUser" column="ENTRY_0_MODIFYUSER"
+				javaType="String" jdbcType="VARCHAR" />
+			<result property="modifyDate" column="ENTRY_0_MODIFYDATE"
+				javaType="Date" jdbcType="TIMESTAMP" />
+		</association>
+	</resultMap>
+	
+	
+   <resultMap id="userSimplResultMap"
+		type="com.sky.knowledge.module.framework.shared.domain.User">
+		<id property="id" column="MASTER_ID" />
+		<result property="loginName" column="LOGINNAME" />
+		<result property="empCode" column="EMPCODE" />
+		<result property="password" column="PASSWORD" />
+		<result property="lastLogin" column="LASTLOGIN" />
+		<result property="status" column="STATUS" />
+		<result property="invalidDate" column="INVALIDDATE" />
+		<result property="validDate" column="VALIDDATE" />
+		<result property="createUser" column="CREATEUSER"
+			javaType="String" jdbcType="VARCHAR" />
+		<result property="createDate" column="CREATEDATE"
+			javaType="Date" jdbcType="TIMESTAMP" />
+		<result property="modifyUser" column="MODIFYUSER"
+			javaType="String" jdbcType="VARCHAR" />
+		<result property="modifyDate" column="MODIFYDATE"
+			javaType="Date" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="select_param">
+		MASTER.ID AS MASTER_ID,
+		ENTRY_0.ID AS ENTRY_0_ID,
+		<!-- 
+		ENTRY_0.DEPTCODE AS ENTRY_0_DEPTID,
+		-->
+		ENTRY_0.DEPTID AS ENTRY_0_DEPTID, 
+		ENTRY_0.EMPCODE AS ENTRY_0_EMPCODE,
+		ENTRY_0.EMPNAME AS ENTRY_0_EMPNAME,
+		ENTRY_0.GENDER AS ENTRY_0_GENDER,
+		ENTRY_0.BIRTHDATE AS ENTRY_0_BIRTHDATE,
+		ENTRY_0.STATUS AS ENTRY_0_STATUS,
+		ENTRY_0.INDATE AS ENTRY_0_INDATE,
+		ENTRY_0.OUTDATE AS ENTRY_0_OUTDATE,
+		ENTRY_0.OTEL AS ENTRY_0_OTEL,
+		ENTRY_0.OADDRESS AS ENTRY_0_OADDRESS,
+		ENTRY_0.OZIPCODE AS ENTRY_0_OZIPCODE,
+		ENTRY_0.OEMAIL AS ENTRY_0_OEMAIL,
+		ENTRY_0.MOBILENO AS ENTRY_0_MOBILENO,
+		ENTRY_0.HTEL AS ENTRY_0_HTEL,
+		ENTRY_0.HADDRESS AS ENTRY_0_HADDRESS,
+		ENTRY_0.HZIPCODE AS ENTRY_0_HZIPCODE,
+		ENTRY_0.PEMAIL AS ENTRY_0_PEMAIL,
+		ENTRY_0.WORKEXP AS ENTRY_0_WORKEXP,
+		ENTRY_0.REMARK AS ENTRY_0_REMARK,
+		ENTRY_0.CREATEUSER AS ENTRY_0_CREATEUSER,
+		ENTRY_0.CREATEDATE AS ENTRY_0_CREATEDATE,
+		ENTRY_0.MODIFYUSER AS ENTRY_0_MODIFYUSER,
+		ENTRY_0.MODIFYDATE AS
+		ENTRY_0_MODIFYDATE,
+		MASTER.LOGINNAME AS MASTER_LOGINNAME,
+		MASTER.PASSWORD AS MASTER_PASSWORD,
+		MASTER.LASTLOGIN AS MASTER_LASTLOGIN,
+		MASTER.STATUS AS MASTER_STATUS,
+		MASTER.INVALIDDATE AS MASTER_INVALIDDATE,
+		MASTER.VALIDDATE AS MASTER_VALIDDATE,
+		MASTER.CREATEUSER AS MASTER_CREATEUSER,
+		MASTER.CREATEDATE AS MASTER_CREATEDATE,
+		MASTER.MODIFYUSER AS MASTER_MODIFYUSER,
+		MASTER.MODIFYDATE AS MASTER_MODIFYDATE
+	</sql>
+
+	<sql id="insert_param">
+		ID,
+		EMPCODE,
+		LOGINNAME,
+		LASTLOGIN,
+		PASSWORD,
+		STATUS,
+		INVALIDDATE,
+		VALIDDATE,
+		CREATEUSER,
+		CREATEDATE,
+		MODIFYUSER,
+		MODIFYDATE
+	</sql>
+    
+    <select id="getById" parameterType="string"
+		resultMap="userSimplResultMap">
+		<![CDATA[
+			SELECT 
+		]]>
+		<include refid="insert_param" />
+		<![CDATA[
+			FROM T_AUTH_USER
+			WHERE ID=#{ID}
+		]]>
+	</select>
+	<select id="getAll" resultMap="userResultMap"
+		parameterType="com.sky.knowledge.module.framework.shared.domain.User">
+		<![CDATA[
+			SELECT 
+		]]>
+		<include refid="select_param" />
+		<![CDATA[
+			FROM T_AUTH_USER MASTER
+			LEFT JOIN T_ORG_EMPLOYEE ENTRY_0
+				ON MASTER.EMPCODE = ENTRY_0.EMPCODE
+		]]>
+		<where>
+			<if test="id!=null and id!=''">
+				MASTER.ID LIKE #{id}
+			</if>
+			<if test="empCode!=null and empCode.empCode!=null and empCode.empCode!=''">
+				AND MASTER.EMPCODE = #{empCode.empCode}
+			</if>
+			<if test="loginName!=null and loginName!=''">
+				AND MASTER.LOGINNAME LIKE #{loginName}
+			</if>
+			<if test="password!=null and password!=''">
+				AND MASTER.PASSWORD LIKE #{password}
+			</if>
+			<if test="lastLogin!=null">
+				AND MASTER.LASTLOGIN = #{lastLogin}
+		    </if>
+			<if test="status!=null">
+				AND MASTER.STATUS = #{status}
+		    </if>
+			<if test="invalidDate!=null">
+				AND MASTER.INVALIDDATE = #{invalidDate}
+		    </if>
+			<if test="validDate!=null">
+				AND MASTER.validDate = #{validDate}
+		    </if>
+		</where>
+		<![CDATA[
+			ORDER BY  MASTER.MODIFYDATE
+		]]>
+	</select>
+	
+	
+	<!-- .............................按照deptId查询USER......................... -->
+	<select id="getAllBydeptId" resultMap="userResultMap"
+		parameterType="string">
+		<!--
+		<![CDATA[
+			SELECT 
+		]]>
+		<include refid="select_param" />
+		<![CDATA[
+			FROM T_AUTH_USER MASTER
+			LEFT JOIN T_ORG_EMPLOYEE ENTRY_0
+				ON MASTER.EMPCODE = ENTRY_0.EMPCODE
+			LEFT JOIN T_ORG_DEPARTMENT ENTRY_1 
+			    ON ENTRY_0.DEPTCODE = ENTRY_1.DEPTCODE
+			    WHERE ENTRY_1.ID = #{deptId}
+		]]>
+		-->
+		<![CDATA[
+			SELECT 
+		]]>
+		<include refid="select_param" />
+		<![CDATA[
+			FROM T_AUTH_USER MASTER
+			LEFT JOIN T_ORG_EMPLOYEE ENTRY_0
+				ON MASTER.EMPCODE = ENTRY_0.EMPCODE
+			WHERE ENTRY_0.DEPTID = #{deptId}
+		]]> 
+	</select>
+
+
+  <!-- .............................按照deptId查询USER数量......................... -->
+  	<select id="countBydeptId" resultType="Long"
+		parameterType="string">
+		<!--
+		<![CDATA[
+			SELECT count(*)
+			FROM T_AUTH_USER MASTER
+			LEFT JOIN T_ORG_EMPLOYEE ENTRY_0
+				ON MASTER.EMPCODE = ENTRY_0.EMPCODE
+			LEFT JOIN T_ORG_DEPARTMENT ENTRY_1 
+			    ON ENTRY_0.DEPTCODE = ENTRY_1.DEPTCODE
+			    WHERE ENTRY_1.ID = #{deptId}
+		]]>
+		-->
+		<![CDATA[
+		SELECT count(*)
+			FROM T_AUTH_USER MASTER
+			LEFT JOIN T_ORG_EMPLOYEE ENTRY_0
+				ON MASTER.EMPCODE = ENTRY_0.EMPCODE
+			WHERE ENTRY_0.DEPTID = #{deptId} 
+		]]>
+	</select>
+	
+	
+	
+  
+	<select id="count" resultType="Long"
+		parameterType="com.sky.knowledge.module.framework.shared.domain.User">
+		<![CDATA[
+			SELECT count(*)
+			FROM T_AUTH_USER MASTER
+			LEFT JOIN T_ORG_EMPLOYEE ENTRY_0
+				ON MASTER.EMPCODE = ENTRY_0.EMPCODE
+		]]>
+		<where>
+			<if test="id!=null and id!=''">
+				MASTER.ID LIKE #{id}
+			</if>
+			<if test="empCode!=null and empCode.empCode!=null and empCode.empCode!=''">
+				AND MASTER.EMPCODE = #{empCode.empCode}
+			</if>
+			<if test="loginName!=null and loginName!=''">
+				AND MASTER.LOGINNAME LIKE #{loginName}
+			</if>
+			<if test="password!=null and password!=''">
+				AND MASTER.PASSWORD LIKE #{password}
+			</if>
+			<if test="lastLogin!=null">
+				AND MASTER.LASTLOGIN = #{lastLogin}
+		    </if>
+			<if test="status!=null">
+				AND MASTER.STATUS = #{status}
+		    </if>
+			<if test="invalidDate!=null">
+				AND MASTER.INVALIDDATE = #{invalidDate}
+		    </if>
+			<if test="validDate!=null">
+				AND MASTER.VALIDDATE = #{validDate}
+		    </if>
+		</where>
+	</select>
+
+	<insert id="insert"
+		parameterType="com.sky.knowledge.module.framework.shared.domain.User">
+		<selectKey keyProperty="id" resultType="string" order="BEFORE">
+			SELECT USER_SEQ.NEXTVAL AS
+			id FROM DUAL
+		</selectKey>
+		<![CDATA[
+			insert into T_AUTH_USER( 
+		]]>
+		<include refid="insert_param" />
+		<![CDATA[
+			) values (
+				#{id},
+		]]>
+		<choose>
+			<when test="empCode!=null">
+				#{empCode.empCode},  		
+				</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="loginName!=null">
+				#{loginName},
+				</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+				null,
+		<choose>
+			<when test="password!=null">
+				#{password},
+				</when>
+			<otherwise>
+				null,
+			</otherwise> 
+		</choose>
+		<choose>
+			<when test="status!=null">
+					#{status},
+				</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="invalidDate!=null">
+					sysdate,
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="validDate!=null">
+					sysdate,
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="createUser!=null">
+					#{createUser,jdbcType=VARCHAR},
+				</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		sysdate,
+		<choose>
+			<when test="modifyUser!=null">
+					#{modifyUser,jdbcType=VARCHAR},
+				</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		sysdate
+		)
+	
+	</insert>
+
+	<update id="updatePassword" >
+		UPDATE T_AUTH_USER 
+		SET PASSWORD=#{password} 
+		WHERE ID=#{id}
+	</update>
+
+	<!-- 更新用户更后登录时间 -->
+	<update id="updateLastLoginDate" parameterType="string">
+		UPDATE T_AUTH_USER
+		SET LASTLOGIN = sysdate 
+		WHERE ID = #{id}
+	</update>
+
+	<update id="update">
+		UPDATE T_AUTH_USER
+		<set>
+			<if test="empCode!=null and empCode.empCode!=null">
+				EMPCODE = #{empCode.empCode},
+		    </if>
+			<if test="loginName!=null and loginName!=''">
+				LOGINNAME = #{loginName},
+	    	</if>
+			<if test="password!=null and password!=''">
+				PASSWORD = #{password},
+	    	</if>
+			<if test="lastLogin!=null">
+				LASTLOGIN = #{lastLogin},
+	    	</if>
+			<if test="status!=null">
+				STATUS = #{status},
+	    	</if>
+	    	<choose>
+			<when test="invalidDate!=null">
+				INVALIDDATE = sysdate,
+			</when>
+			<otherwise>
+				INVALIDDATE = null,
+			</otherwise>
+			</choose>
+			<choose>
+			<when test="validDate!=null">
+				VALIDDATE = sysdate,
+			</when>
+			<otherwise>
+				VALIDDATE = null,
+			</otherwise>
+			</choose>
+			<if test="modifyUser != '' and modifyUser != '' ">
+				MODIFYUSER = #{modifyUser,jdbcType=VARCHAR},
+        	</if>
+			MODIFYDATE = sysdate
+		</set>
+		WHERE ID = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="string">
+		<![CDATA[
+			UPDATE  T_AUTH_USER SET STATUS=2,validate=sysdate WHERE ID = #{id}
+		]]>
+	</delete>
+
+<!-- 缓存加载用户信息方法 -->
+<!-- ############################################################################################### -->
+	<resultMap id="detailUserMap"
+		type="com.sky.knowledge.module.framework.shared.domain.User">
+		<id property="id" column="ID" />
+		<result property="loginName" column="LOGINNAME" />
+		<result property="password" column="PASSWORD" />
+		<result property="lastLogin" column="LASTLOGIN" />
+		<result property="status" column="STATUS" />
+		<result property="invalidDate" column="INVALIDDATE" />
+		<result property="validDate" column="VALIDDATE" />
+		<result property="createUser" column="CREATEUSER" javaType="String"
+			jdbcType="VARCHAR" />
+		<result property="createDate" column="CREATEDATE" javaType="Date"
+			jdbcType="TIMESTAMP" />
+		<result property="modifyUser" column="MODIFYUSER" javaType="String"
+			jdbcType="VARCHAR" />
+		<result property="modifyDate" column="MODIFYDATE" javaType="Date"
+			jdbcType="TIMESTAMP" />
+		<association property="empCode" column="ENTRY_0_EMPCODE"
+			javaType="com.sky.knowledge.module.framework.shared.domain.Employee">
+			<id property="id" column="ENTRY_0_ID" />
+			<result property="empCode" column="ENTRY_0_EMPCODE" />
+			<result property="empName" column="ENTRY_0_EMPNAME" />
+			<result property="gender" column="ENTRY_0_GENDER" />
+			<result property="birthdate" column="ENTRY_0_BIRTHDATE" />
+			<result property="status" column="ENTRY_0_STATUS" />
+			<result property="inDate" column="ENTRY_0_INDATE" />
+			<result property="outDate" column="ENTRY_0_OUTDATE" />
+			<result property="offerTel" column="ENTRY_0_OTEL" />
+			<result property="offerAddress" column="ENTRY_0_OADDRESS" />
+			<result property="offerZipCode" column="ENTRY_0_OZIPCODE" />
+			<result property="offerEmail" column="ENTRY_0_OEMAIL" />
+			<result property="mobileNumber" column="ENTRY_0_MOBILENO" />
+			<result property="homeTel" column="ENTRY_0_HTEL" />
+			<result property="homeAddress" column="ENTRY_0_HADDRESS" />
+			<result property="homeZipCode" column="ENTRY_0_HZIPCODE" />
+			<result property="personEmail" column="ENTRY_0_PEMAIL" />
+			<result property="workExp" column="ENTRY_0_WORKEXP" />
+			<result property="remark" column="ENTRY_0_REMARK" />
+			<result property="createUser" column="ENTRY_0_CREATEUSER"
+				javaType="String" jdbcType="VARCHAR" />
+			<result property="createDate" column="ENTRY_0_CREATEDATE"
+				javaType="Date" jdbcType="TIMESTAMP" />
+			<result property="modifyUser" column="ENTRY_0_MODIFYUSER"
+				javaType="String" jdbcType="VARCHAR" />
+			<result property="modifyDate" column="ENTRY_0_MODIFYDATE"
+				javaType="Date" jdbcType="TIMESTAMP" />
+			<association property="deptId" column="ENTRY_1_ID"
+				javaType="com.sky.knowledge.module.framework.shared.domain.Department">
+				<id property="id" column="ENTRY_1_ID" />
+				<result property="deptCode" column="ENTRY_1_DEPTCODE" />
+				<result property="deptName" column="ENTRY_1_DEPTNAME" />
+				<result property="principal" column="ENTRY_1_PRINCIPAL" />
+				<result property="phone" column="ENTRY_1_PHONE" />
+				<result property="fax" column="ENTRY_1_FAX" />
+				<result property="parentCode" column="ENTRY_1_PARENTCODE" />
+				<result property="companyCode" column="ENTRY_1_COMPANYCODE" />
+				<result property="zipCode" column="ENTRY_1_ZIPCODE" />
+				<result property="address" column="ENTRY_1_ADDRESS" />
+				<result property="status" column="ENTRY_1_STATUS" />
+				<result property="validDate" column="ENTRY_1_VALIDDATE" />
+				<result property="invalidDate" column="ENTRY_1_INVALIDDATE" />
+				<result property="displayOrder" column="ENTRY_1_DISPLAYORDER" />
+				<result property="deptLevel" column="ENTRY_1_DEPTLEVEL" />
+				<result property="deptDesc" column="ENTRY_1_DEPTDESC" />
+				<result property="deptSeq" column="ENTRY_1_DEPTSEQ" />
+				<result property="createUser" column="ENTRY_1_CREATEUSER"
+					javaType="String" jdbcType="VARCHAR" />
+				<result property="createDate" column="ENTRY_1_CREATEDATE"
+					javaType="Date" jdbcType="TIMESTAMP" />
+				<result property="modifyUser" column="ENTRY_1_MODIFYUSER"
+					javaType="String" jdbcType="VARCHAR" />
+				<result property="modifyDate" column="ENTRY_1_MODIFYDATE"
+					javaType="Date" jdbcType="TIMESTAMP" />
+			</association>
+		</association>
+		<collection property="roleids" column="ROLEID" ofType="String">
+			<result column="ROLEID" />
+		</collection>
+		<collection property="functionCodes" column="FUNCTIONCODE"
+			ofType="String">
+			<result column="FUNCTIONCODE" />
+		</collection>
+	</resultMap>
+
+	<sql id="user_roleId_functionCode_sql">
+		<![CDATA[
+			SELECT
+				USER1.ID          	AS ID,
+		        USER1.LOGINNAME 	AS LOGINNAME,
+		        USER1.PASSWORD      AS PASSWORD,
+		        USER1.LASTLOGIN    	AS LASTLOGIN,
+		        USER1.STATUS        AS STATUS,
+		        USER1.INVALIDDATE   AS INVALIDDATE,
+		        USER1.VALIDDATE     AS VALIDDATE,
+		        USER1.CREATEUSER    AS CREATEUSER,
+		        USER1.CREATEDATE    AS CREATEDATE,
+		        USER1.MODIFYUSER    AS MODIFYUSER,
+		        USER1.MODIFYDATE    AS MODIFYDATE,
+		    	ENTRY_1.ID 			AS ENTRY_1_ID,
+				ENTRY_1.DEPTCODE 	AS ENTRY_1_DEPTCODE,
+				ENTRY_1.DEPTNAME 	AS ENTRY_1_DEPTNAME,
+				ENTRY_1.COMPANYNAME AS ENTRY_1_COMPANYNAME,
+				ENTRY_1.PHONE 		AS ENTRY_1_PHONE,
+				ENTRY_1.FAX 		AS ENTRY_1_FAX,
+				ENTRY_1.ZIPCODE 	AS ENTRY_1_ZIPCODE,
+				ENTRY_1.ADDRESS 	AS ENTRY_1_ADDRESS,
+				ENTRY_1.STATUS 		AS ENTRY_1_STATUS,
+				ENTRY_1.VALIDDATE 	AS ENTRY_1_VALIDDATE,
+				ENTRY_1.INVALIDDATE AS ENTRY_1_INVALIDDATE,
+				ENTRY_1.DISPLAYORDER AS ENTRY_1_DISPLAYORDER,
+				ENTRY_1.DEPTLEVEL 	AS ENTRY_1_DEPTLEVEL,
+				ENTRY_1.DEPTDESC 	AS ENTRY_1_DEPTDESC,
+				ENTRY_1.DEPTSEQ 	AS ENTRY_1_DEPTSEQ,
+				ENTRY_1.CREATEUSER 	AS ENTRY_1_CREATEUSER,
+				ENTRY_1.CREATEDATE 	AS ENTRY_1_CREATEDATE,
+				ENTRY_1.MODIFYUSER 	AS ENTRY_1_MODIFYUSER,
+				ENTRY_1.MODIFYDATE 	AS ENTRY_1_MODIFYDATE,
+				ENTRY_0.EMPCODE 	AS ENTRY_0_EMPCODE,
+				ENTRY_0.EMPNAME 	AS ENTRY_0_EMPNAME,
+				ENTRY_0.GENDER 		AS ENTRY_0_GENDER,
+				ENTRY_0.BIRTHDATE 	AS ENTRY_0_BIRTHDATE,
+				ENTRY_0.STATUS 		AS ENTRY_0_STATUS,
+				ENTRY_0.INDATE 		AS ENTRY_0_INDATE,
+				ENTRY_0.OUTDATE 	AS ENTRY_0_OUTDATE,
+				ENTRY_0.OTEL 		AS ENTRY_0_OTEL,
+				ENTRY_0.OADDRESS 	AS ENTRY_0_OADDRESS,
+				ENTRY_0.OZIPCODE 	AS ENTRY_0_OZIPCODE,
+				ENTRY_0.OEMAIL 		AS ENTRY_0_OEMAIL,
+				ENTRY_0.MOBILENO 	AS ENTRY_0_MOBILENO,
+				ENTRY_0.HTEL 		AS ENTRY_0_HTEL,
+				ENTRY_0.HADDRESS 	AS ENTRY_0_HADDRESS,
+				ENTRY_0.HZIPCODE 	AS ENTRY_0_HZIPCODE,
+				ENTRY_0.PEMAIL 		AS ENTRY_0_PEMAIL,
+				ENTRY_0.WORKEXP 	AS ENTRY_0_WORKEXP,
+				ENTRY_0.REMARK 		AS ENTRY_0_REMARK,
+				ENTRY_0.CREATEUSER 	AS ENTRY_0_CREATEUSER,
+				ENTRY_0.CREATEDATE 	AS ENTRY_0_CREATEDATE,
+				ENTRY_0.MODIFYUSER 	AS ENTRY_0_MODIFYUSER,
+				ENTRY_0.MODIFYDATE 	AS ENTRY_0_MODIFYDATE,
+				USERROLE.ROLEID			AS ROLEID,
+				FUNCTION.FUNCTIONCODE	AS FUNCTIONCODE
+		  	FROM T_AUTH_USER USER1
+		        LEFT JOIN T_ORG_EMPLOYEE ENTRY_0 ON USER1.EMPCODE=ENTRY_0.EMPCODE
+		        LEFT JOIN T_ORG_DEPARTMENT ENTRY_1 ON ENTRY_1.ID=ENTRY_0.DEPTID
+		    ]]>
+		    	<!-- LEFT JOIN T_ORG_DEPARTMENT ENTRY_1 ON ENTRY_1.ID=ENTRY_0.DEPTCODE -->
+		    <![CDATA[
+				LEFT JOIN T_AUTH_USERROLE USERROLE ON USER1.ID = USERROLE.USERID
+				LEFT JOIN T_AUTH_FUNCTIONROLE FUNCTIONROLE ON USERROLE.ROLEID = FUNCTIONROLE.ROLEID
+				LEFT JOIN T_AUTH_FUNCTION FUNCTION ON  FUNCTION.ID = FUNCTIONROLE.FUNCID
+		    WHERE 
+		    	FUNCTION.VALIDFLAG=1 
+		    	AND USER1.STATUS=1
+	    ]]>
+	</sql>
+
+	<select id="getUserWithRoleIdAndFunctionCodeById" parameterType="string"
+		resultMap="detailUserMap">
+		<include refid="user_roleId_functionCode_sql" />
+		<![CDATA[
+		    AND USER1.ID=#{userId}
+		]]>
+	</select>
+	
+	<select id="getLastModifyTime" resultType="date">
+		<![CDATA[
+			SELECT MAX(MODIFYDATE)
+			FROM T_AUTH_USER
+		]]>
+	</select>
+
+	<select id="getByLastModifyDate" parameterType="date"
+		resultMap="detailUserMap">
+		<include refid="user_roleId_functionCode_sql" />
+		<![CDATA[
+			AND MODIFYDATE = #{lastModifyDate}
+		]]>
+	</select>
+
+<!-- 登录加载用户方法 -->
+<!-- ############################################################################################### -->
+	<resultMap id="loginUserResultMap"
+		type="com.sky.knowledge.module.framework.shared.domain.User">
+		<id property="id" column="ID" />
+		<result property="loginName" column="LOGINNAME" />
+		<result property="password" column="PASSWORD" />
+		<result property="lastLogin" column="LASTLOGIN" />
+		<result property="status" column="STATUS" />
+		<result property="invalidDate" column="INVALIDDATE" />
+		<result property="validDate" column="validDate" />
+		<result property="createUser" column="CREATEUSER"
+			javaType="String" jdbcType="VARCHAR" />
+		<result property="createDate" column="CREATEDATE"
+			javaType="Date" jdbcType="TIMESTAMP" />
+		<result property="modifyUser" column="MODIFYUSER"
+			javaType="String" jdbcType="VARCHAR" />
+		<result property="modifyDate" column="MODIFYDATE"
+			javaType="Date" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="getByLoginName" resultMap="loginUserResultMap"
+		parameterType="string">
+		<![CDATA[
+			SELECT
+		]]>
+		<include refid="insert_param" />
+		<![CDATA[
+			FROM T_AUTH_USER
+			WHERE LOGINNAME = #{loginName}
+		]]>
+	</select>
+	
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.sky.knowledge.module.framework.shared.domain.BaseData">
+
+ <resultMap id="baseDataMap" type="com.sky.knowledge.module.framework.shared.domain.BaseData">
+  <id property="fid" column="FID"></id>
+  <result property="typecode" column="typecode" javaType="String" jdbcType="VARCHAR" ></result>
+  <result property="typename" column="typename" javaType="String" jdbcType="VARCHAR"></result>
+  <result property="typekey" column="typekey" javaType="String" jdbcType="VARCHAR"></result>
+  <result property="typevalue" column="typevalue" javaType="String" jdbcType="VARCHAR"></result>
+  <result property="status" column="status" javaType="String" jdbcType="VARCHAR"></result>
+  <result property="remark" column="remark" javaType="String" jdbcType="VARCHAR"></result>
+  <result property="createuser" column="createuser" javaType="String" jdbcType="VARCHAR"></result>
+  <result property="modifyuser" column="modifyuser" javaType="String" jdbcType="VARCHAR"></result>
+  <result property="createdate" column="createdate" javaType="Date" jdbcType="DATE"></result>
+  <result property="modifydate" column="modifydate" javaType="Date" jdbcType="DATE"></result>
+ </resultMap>
+ <!-- 获取最新的修改时间  -->
+ <select id="getLastModifyTime" resultType="date">
+    select max(a.updatedate) from t_fins_alltypes a
+ </select>
+ <!-- 获取系统所有基础资料 -->
+ <select id="getAll" resultMap="baseDataMap">
+   select * from t_fins_alltypes
+ </select>
+</mapper>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.sky.knowledge.module.framework.shared.domain.Function">
+ <!-- function表返回的结果集，多表联查，查询其父节点 -->
+	<resultMap id="functionResultMap"
+		type="com.sky.knowledge.module.framework.shared.domain.Function">
+		<id property="id" column="MASTER_ID" />
+		<result property="functionCode" column="MASTER_FUNCTIONCODE" />
+		<result property="functionName" column="MASTER_FUNCTIONNAME" />
+		<result property="uri" column="MASTER_URI" />
+		<result property="functionLevel" column="MASTER_FUNCTIONLEVEL" />
+		<result property="validFlag" column="MASTER_VALIDFLAG" />
+		<result property="invalidDate" column="MASTER_INVALIDDATE" />
+		<result property="validDate" column="MASTER_VALIDDATE" />
+		<result property="displayOrder" column="MASTER_DISPLAYORDER" />
+		<result property="check" column="MASTER_ISCHECK" />
+		<result property="functionType" column="MASTER_FUNCTIONTYPE" />
+		<result property="functionDesc" column="MASTER_FUNCTIONDESC" />
+		<result property="functionSeq" column="MASTER_FUNCTIONSEQ" />
+		<result property="createUser" column="MASTER_CREATEUSER"
+			javaType="String" jdbcType="VARCHAR" />
+		<result property="createDate" column="MASTER_CREATEDATE"
+			javaType="Date" jdbcType="TIMESTAMP" />
+		<result property="modifyUser" column="MASTER_MODIFYUSER"
+			javaType="String" jdbcType="VARCHAR" />
+		<result property="modifyDate" column="MASTER_MODIFYDATE"
+			javaType="Date" jdbcType="TIMESTAMP" />
+		<association property="parentCode" column="ENTRY_0_FUNCTIONCODE"
+			javaType="com.sky.knowledge.module.framework.shared.domain.Function">
+			<id property="id" column="ENTRY_0_ID" />
+			<result property="functionCode" column="ENTRY_0_FUNCTIONCODE" />
+			<result property="functionName" column="ENTRY_0_FUNCTIONNAME" />
+			<result property="uri" column="ENTRY_0_URI" />
+			<result property="functionLevel" column="ENTRY_0_FUNCTIONLEVEL" />
+			<result property="parentCode" column="ENTRY_0_PARENTCODE" />
+			<result property="validFlag" column="ENTRY_0_VALIDFLAG" />
+			<result property="invalidDate" column="ENTRY_0_INVALIDDATE" />
+			<result property="validDate" column="ENTRY_0_VALIDDATE" />
+			<result property="displayOrder" column="ENTRY_0_DISPLAYORDER" />
+			<result property="check" column="ENTRY_0_ISCHECK" />
+			<result property="functionType" column="ENTRY_0_FUNCTIONTYPE" />
+			<result property="functionDesc" column="ENTRY_0_FUNCTIONDESC" />
+			<result property="functionSeq" column="ENTRY_0_FUNCTIONSEQ" />
+			<result property="createUser" column="ENTRY_0_CREATEUSER"
+				javaType="String" jdbcType="VARCHAR" />
+			<result property="createDate" column="ENTRY_0_CREATEDATE"
+				javaType="Date" jdbcType="TIMESTAMP" />
+			<result property="modifyUser" column="ENTRY_0_MODIFYUSER"
+				javaType="String" jdbcType="VARCHAR" />
+			<result property="modifyDate" column="ENTRY_0_MODIFYDATE"
+				javaType="Date" jdbcType="TIMESTAMP" />
+		</association>
+	</resultMap>
+	
+ <!-- 获取最新的修改时间 -->
+	<select id="getLastModifyTime" resultType="date">
+		<![CDATA[
+			SELECT MAX(MODIFYDATE) FROM T_AUTH_FUNCTION
+		]]>
+	</select>
+	
+	
+	  <!-- function表返回查询字段 -->
+	<sql id="select_param">
+		MASTER.ID AS MASTER_ID,
+		MASTER.FUNCTIONCODE AS
+		MASTER_FUNCTIONCODE,
+		MASTER.FUNCTIONNAME AS MASTER_FUNCTIONNAME,
+		MASTER.URI AS MASTER_URI,
+		MASTER.FUNCTIONLEVEL AS MASTER_FUNCTIONLEVEL,
+		ENTRY_0.ID AS ENTRY_0_ID,
+		ENTRY_0.FUNCTIONCODE AS ENTRY_0_FUNCTIONCODE,
+		ENTRY_0.FUNCTIONNAME AS ENTRY_0_FUNCTIONNAME,
+		ENTRY_0.URI AS
+		ENTRY_0_URI,
+		ENTRY_0.FUNCTIONLEVEL AS ENTRY_0_FUNCTIONLEVEL,
+		ENTRY_0.PARENTCODE AS ENTRY_0_PARENTCODE,
+		ENTRY_0.VALIDFLAG AS
+		ENTRY_0_VALIDFLAG,
+		ENTRY_0.INVALIDDATE AS ENTRY_0_INVALIDDATE,
+		ENTRY_0.VALIDDATE AS ENTRY_0_VALIDDATE,
+		ENTRY_0.DISPLAYORDER AS
+		ENTRY_0_DISPLAYORDER,
+		ENTRY_0.ISCHECK AS ENTRY_0_ISCHECK,
+		ENTRY_0.FUNCTIONTYPE AS ENTRY_0_FUNCTIONTYPE,
+		ENTRY_0.FUNCTIONDESC AS
+		ENTRY_0_FUNCTIONDESC,
+		ENTRY_0.FUNCTIONSEQ AS ENTRY_0_FUNCTIONSEQ,
+		ENTRY_0.CREATEUSER AS ENTRY_0_CREATEUSER,
+		ENTRY_0.CREATEDATE AS
+		ENTRY_0_CREATEDATE,
+		ENTRY_0.MODIFYUSER AS ENTRY_0_MODIFYUSER,
+		ENTRY_0.MODIFYDATE AS ENTRY_0_MODIFYDATE,
+		MASTER.VALIDFLAG AS
+		MASTER_VALIDFLAG,
+		MASTER.INVALIDDATE AS MASTER_INVALIDDATE,
+		MASTER.VALIDDATE AS MASTER_VALIDDATE,
+		MASTER.DISPLAYORDER AS
+		MASTER_DISPLAYORDER,
+		MASTER.ISCHECK AS MASTER_ISCHECK,
+		MASTER.FUNCTIONTYPE AS MASTER_FUNCTIONTYPE,
+		MASTER.FUNCTIONDESC AS
+		MASTER_FUNCTIONDESC,
+		MASTER.FUNCTIONSEQ AS MASTER_FUNCTIONSEQ,
+		MASTER.CREATEUSER AS MASTER_CREATEUSER,
+		MASTER.CREATEDATE AS
+		MASTER_CREATEDATE,
+		MASTER.MODIFYUSER AS MASTER_MODIFYUSER,
+		MASTER.MODIFYDATE AS MASTER_MODIFYDATE
+	</sql>
+	
+	
+	 <!-- 通过URI递归获取该节点的所有功能-->
+	<select id="getAllChildFunctionByURI" resultMap="functionResultMap"
+		parameterType="string">			
+		<![CDATA[
+			SELECT
+		]]>
+		<include refid="select_param" />
+		<![CDATA[
+			FROM T_AUTH_FUNCTION MASTER
+			LEFT JOIN T_AUTH_FUNCTION ENTRY_0
+			ON MASTER.PARENTCODE = ENTRY_0.FUNCTIONCODE
+			CONNECT BY PRIOR MASTER.FUNCTIONCODE = MASTER.PARENTCODE
+			START WITH MASTER.URI=#{uri}
+		]]>	
+	</select>
+
+
+</mapper>

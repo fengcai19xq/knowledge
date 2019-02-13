@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	 xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+            http://www.springframework.org/schema/jee
+            http://www.springframework.org/schema/jee/spring-tx-3.0.xsd">
+ 
+ <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="locations">
+    <list> 
+      <value>/WEB-INF/data.properties</value>
+    </list>
+    </property>
+    <property name="ignoreUnresolvablePlaceholders" value="true" />
+ </bean>
+ <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+   <property name="driverClassName">
+     <value>${jdbc.driverClassName}</value>
+   </property>
+   <property name="url"> 
+     <value>${jdbc.url}</value>
+   </property>
+   <property name="username">
+     <value>${jdbc.username}</value>
+   </property>
+   <property name="password">
+     <value>${jdbc.password}</value>
+   </property>
+ </bean>
+ 
+  <!-- 数据连接管理 -->	
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	 <!-- 事务注解支持 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<!-- myBatis文件 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
+		 <property name="configLocation" value="classpath:mybatis.xml" /> 
+		<property name="mapperLocations" value="classpath*:com/sky/knowledge/**/META-INF/ibatis/*.xml" /> 
+		<property name="dataSource" ref="dataSource" /> 
+	</bean>
+    
+<!-- 日志队列配置开始 -->
+
+	<!-- 异常日志 -->
+	<bean id="exceptionLog"
+		class="com.sky.knowledge.module.framework.server.components.logger.LogBuffer">
+		<property name="enable" value="true" />
+		<property name="queueCapacity" value="100" />
+		<property name="size" value="20" />
+		<property name="threads" value="5" />
+		<property name="sender" ref="exSender" />
+	</bean>
+	<!-- 性能日志 -->
+	<bean id="performanceLog"
+		class="com.sky.knowledge.module.framework.server.components.logger.LogBuffer">
+		<property name="enable" value="true" /><!-- 默认启用 -->
+		<property name="queueCapacity" value="1000" />
+		<property name="size" value="20" />
+		<property name="threads" value="5" />
+		<property name="sender" ref="pfSender" />
+	</bean>
+	
+	<bean id="pfSender"
+		class="com.sky.knowledge.module.framework.server.components.logger.track.LogSenderImpl">
+		<property name="asyncJMSAdapter" ref="pfAsyncJMSAdapter" />
+	</bean>
+
+	<bean id="exSender"
+		class="com.sky.knowledge.module.framework.server.components.logger.track.LogSenderImpl">
+		<property name="asyncJMSAdapter" ref="exAsyncJMSAdapter" />
+	</bean>
+	
+	<bean id="pfAsyncJMSAdapter"
+		class="com.sky.knowledge.module.framework.server.adapter.jms.adapter.AsyncJMSAdapter">
+		<property name="converter" ref="jsonConverter" />
+	</bean>
+	
+	<bean id="exAsyncJMSAdapter"
+		class="com.sky.knowledge.module.framework.server.adapter.jms.adapter.AsyncJMSAdapter">
+		<property name="converter" ref="jsonConverter" />
+		<property name="jmsTemplate" ref="exJmsTemplate" />
+	</bean>
+	
+	<bean id="exJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="jmsConnectionFactory"></property>
+		<property name="receiveTimeout">
+			<value>30000</value>
+		</property>
+	</bean>
+
+	<bean id="jmsConnectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory"></bean>
+	
+	
+	<bean id="jsonConverter"
+		class="com.sky.knowledge.module.framework.server.adapter.jms.convert.impl.JsonConverter" />
+		
+	    <!-- 启用注解功能 -->
+	<context:annotation-config />
+	<context:component-scan base-package="com.sky.knowledge" /> 
+   	<!-- 启动spring事务注解支持 -->
+   <!-- <aop:aspectj-autoproxy /> --> 
+</beans>

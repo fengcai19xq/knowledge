@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<!-- T_FSI_HOME_PAGE 表，作用：账务自助首页的数据加载 -->
+<mapper namespace="com.sky.knowledge.module.login.shared.domain.HomePageEntity">
+	<resultMap type="com.sky.knowledge.module.login.shared.domain.HomePageEntity" id="resultMap">
+		<id property="homePageID" column="HOMEPAGE_ID"/>
+		<result property="title" column="TITLE"/>
+		<result property="fileName" column="FILE_NAME"/>
+		<result property="readFileName" column="READ_FILE_NAME"/>
+		<result property="imgSrc" column="IMG_SRC"/>
+		<result property="parentCode" column="PARENTCODE"/>
+		<result property="functionCode" column="FUNCTIONCODE"/>
+		<result property="orderIndex" column="ORDER_INDEX"/>
+		<result property="dataType" column="DATA_TYPE"/>
+		<result property="empCode" column="EMPCODE"/>
+		<result property="createTime" column="CREATE_TIME"/>
+		<result property="fun.uri" column="URI"/>
+	</resultMap>
+	
+	<select id="queryAll" parameterType="com.sky.knowledge.module.login.shared.domain.HomePageEntity" resultMap="resultMap">
+		SELECT tfhp.*, taf3.uri 
+			FROM   t_fsi_home_page tfhp LEFT JOIN 
+			(
+	       		SELECT * FROM t_auth_function taf2 
+	       		WHERE taf2.id IN (
+	              	SELECT taf.funcid FROM t_auth_functionrole taf 
+	              		WHERE taf.roleid IN (
+	                          SELECT tau2.roleid FROM t_auth_userrole tau2 
+	                          	WHERE tau2.userid =( 
+	                          		SELECT tau.id FROM t_auth_user tau 
+	                          		WHERE tau.empcode=#{empCode}
+	                                                )
+	                          				)
+	              				 )
+			) taf3 ON tfhp.functioncode = taf3.functioncode
+		<where>
+			<if test="dataType != null and dataType != '' ">
+				DATA_TYPE = #{dataType}
+			</if>
+		</where> 
+		ORDER BY ORDER_INDEX ASC
+	</select>
+	
+	<!-- 查询数据 -->
+	<select id="query" parameterType="com.sky.knowledge.module.login.shared.domain.HomePageEntity"  resultMap="resultMap">
+		SELECT TFHP.HOMEPAGE_ID,
+			TFHP.TITLE,
+			TFHP.FILE_NAME,
+			TFHP.READ_FILE_NAME,
+			TFHP.IMG_SRC,
+			TFHP.FUNCTIONCODE,
+			TFHP.ORDER_INDEX,
+			TFHP.DATA_TYPE,
+			TFHP.EMPCODE,
+			TFHP.CREATE_TIME 
+		FROM T_FSI_HOME_PAGE TFHP
+		<where>
+			TFHP.HOMEPAGE_ID = #{homePageID}
+		</where>
+	</select>
+</mapper>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sky.knowledge.module.example.shared.domain.DemoEntity">
+
+  <select id="queryFun" parameterType="com.sky.knowledge.module.example.shared.domain.DemoEntity" resultType="com.sky.knowledge.module.example.shared.domain.DemoEntity">
+         select * from t_test_demo a
+	 <where>
+	 	1=1
+	 	<if test="billnum!=null and billnum!='' "> and a.billnum = #{billnum}</if>
+	 	<if test="name!=null and name!='' "> and name = #{name}</if>
+	 	<if test="remitbank!=null and remitbank!='' "> and remitbank = #{remitbank}</if>
+	 	<if test="dcStartDate!=null and dcStartDate!='' "> 
+	 	<![CDATA[
+				and remitdate >=#{dcStartDate}
+			]]>
+			</if>
+		<if test="dcEndDate!=null and dcEndDate!='' "> 
+	 	<![CDATA[
+				and remitdate <=#{dcEndDate}
+			]]>
+			</if>	
+	 	<if test="handoverstatus!=null"> and handoverstatus = #{handoverstatus}</if>
+	 	<if test="money!=null"> and money = #{money}</if>
+	 </where> 	 
+  </select>
+  <select id = "queryFunCount" parameterType="com.sky.knowledge.module.example.shared.domain.DemoEntity" resultType="int">
+	 select count(1) from t_test_demo a
+	 <where>
+	 	1=1
+	 	<if test="billnum!=null and billnum!='' "> and a.billnum = #{billnum}</if>
+	 	<if test="name!=null and name!='' "> and name = #{name}</if>
+	 	<if test="remitbank!=null and remitbank!='' "> and remitbank = #{remitbank}</if>
+	 	<if test="dcStartDate!=null and dcStartDate!='' "> 
+	 	<![CDATA[
+				and remitdate >=#{dcStartDate}
+			]]>
+			</if>
+		<if test="dcEndDate!=null and dcEndDate!='' "> 
+	 	<![CDATA[
+				and remitdate <=#{dcEndDate}
+			]]>
+			</if>	
+	 	<if test="handoverstatus!=null"> and handoverstatus = #{handoverstatus}</if>
+	 	<if test="money!=null"> and money = #{money}</if>
+	 </where> 	
+	</select>
+	
+	<select id = "queryTotalMoney" parameterType="com.sky.knowledge.module.example.shared.domain.DemoEntity" resultType="double">
+	 select sum(money) from t_test_demo a
+	 <where>
+	 	1=1
+	 	<if test="billnum!=null and billnum!='' "> and a.billnum = #{billnum}</if>
+	 	<if test="name!=null and name!='' "> and name = #{name}</if>
+	 	<if test="remitbank!=null and remitbank!='' "> and remitbank = #{remitbank}</if>
+	 	<if test="dcStartDate!=null and dcStartDate!='' "> 
+	 	<![CDATA[
+				and remitdate >=#{dcStartDate}
+			]]>
+			</if>
+		<if test="dcEndDate!=null and dcEndDate!='' "> 
+	 	<![CDATA[
+				and remitdate <=#{dcEndDate}
+			]]>
+			</if>	
+	 	<if test="handoverstatus!=null"> and handoverstatus = #{handoverstatus}</if>
+	 	<if test="money!=null"> and money = #{money}</if>
+	 </where> 	
+	</select>
+	<insert id="save" parameterType="com.sky.knowledge.module.example.shared.domain.DemoEntity">
+	<![CDATA[
+			insert into t_test_demo(id,billnum,name,surnname,lastname,handoverstatus,remitdate,remitbank,money)
+		]]>
+		<![CDATA[
+		    values(
+		    t_test_demo_seq.Nextval,
+		     #{billnum,jdbcType=VARCHAR},
+		     #{name,jdbcType=VARCHAR},
+		     #{surnname,jdbcType=VARCHAR},
+		     #{lastname,jdbcType=VARCHAR},
+		     #{handoverstatus,jdbcType=VARCHAR},
+		     #{remitdate,jdbcType=DATE},
+		     #{remitbank,jdbcType=VARCHAR},
+		     #{money,jdbcType=DECIMAL}
+		    )
+		]]>
+	</insert>
+	<delete id="deleteData" parameterType="java.util.Map">
+	<if test="arrayParams!=null and arrayParams!=''">
+	   delete from t_test_demo
+	 <where>
+	  1=1
+	   and billnum in 
+	   	  <foreach collection="arrayParams" item="arrayParam" open="(" separator="," close=")">
+	   	    #{arrayParam}
+	   	  </foreach>
+	 </where>
+	 </if>
+	</delete>
+	
+	<update id="updateGridData" parameterType="com.sky.knowledge.module.example.shared.domain.DemoEntity">
+	   update t_test_demo  
+	 <set>
+	   name = #{name,jdbcType=VARCHAR},
+	   surnname = #{surnname,jdbcType=VARCHAR},
+	   lastname = #{lastname,jdbcType=VARCHAR},
+	   remitbank = #{remitbank,jdbcType=VARCHAR},
+	   remitdate = #{remitdate,jdbcType=DATE},
+	   handoverstatus = #{handoverstatus,jdbcType=VARCHAR},
+	   money = #{money,jdbcType=DECIMAL}
+	 </set>
+	 <where> billnum = #{billnum} </where>
+	</update>
+	
+	<update id="markHandOverStatus" parameterType="java.util.Map">
+	  <if test="billnum!=null and billnum!=''">
+	  	 update t_test_demo set handOverStatus = #{handOverStatus} where billnum = #{billnum}
+	  </if>
+	</update>
+	
+	<select id="validateBillnum" parameterType="string" resultType="int">
+	   <if test="_parameter !=null and _parameter !=''">
+	   select count(1) from t_test_demo a where a.billnum = #{_parameter}
+	   </if>
+	</select>
+	
+	<insert id="importExcel" parameterType="java.util.Map">
+	  insert into t_test_demo(id,billnum,name,surnname,lastname,remitbank,remitdate,handoverstatus,money)
+	  select sys_guid(),a.* from (
+	   <foreach collection="demoEntityList" item="demo" index= "index"   separator= "union all">
+	       select #{demo.billnum},#{demo.name},#{demo.surnname},#{demo.lastname},#{demo.remitbank},#{demo.remitdate},#{demo.handoverstatus},#{demo.money} 
+	       from dual 
+	   </foreach>
+	   )a
+	</insert>
+	
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="example" namespace="/demo" extends="knowledge-default">
+		
+		<action name="demoaction">
+			<result name="success">demopages/demo.jsp</result>
+		</action>
+		<action name="queryFun" class="com.sky.knowledge.module.example.server.action.DemoAction" method="queryFun">
+			<result name="success" type="json"></result>
+		</action>
+		<action name="save" class="com.sky.knowledge.module.example.server.action.DemoAction" method="save">
+			<result name="success" type="json"></result>
+		</action>
+		<action name="deleteData" class="com.sky.knowledge.module.example.server.action.DemoAction" method="deleteData">
+		  <result name="success" type="json"></result>
+		</action>
+		<action name="updateGridData" class="com.sky.knowledge.module.example.server.action.DemoAction" method="updateGridData">
+		    <result name="success" type="json"></result>
+		</action>
+		<action name="markHandOverStatus" class="com.sky.knowledge.module.example.server.action.DemoAction" method="markHandOverStatus">
+		   <result name="success" type="json"></result>
+		</action>
+		<action name="printAc" class="com.sky.knowledge.module.example.server.action.DemoAction" method="printAc">
+		   <result name="success">demopages/printTest.jsp</result>
+		</action>
+		<action name="printView" class="com.sky.knowledge.module.example.server.action.DemoAction" method="printView">
+		  <result name="success">demopages/printTest.jsp</result>
+		</action>
+		<action name="exportAllData" class="com.sky.knowledge.module.example.server.action.DemoAction" method="exportExcel">
+		 <result name="success" type="stream">
+				<param name="contentType">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8</param>
+				<param name="inputName">excelStream</param>
+				<param name="contentDisposition">attachment;filename="${fileName}"</param>
+				<param name="buffersize">1024</param>
+			</result>
+		</action>
+		
+		<action name="demoaction_*" class="com.sky.knowledge.module.example.server.action.DemoAction" method="{1}">
+		  <result name="success" type="json"></result>
+		</action>
+	</package>
+</struts>

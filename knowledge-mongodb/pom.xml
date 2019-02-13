@@ -1,0 +1,21 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>knowledge</artifactId>
+    <groupId>com.sky.knowledge</groupId>
+    <version>1.0.0-SNAOSHOT</version>
+  </parent>
+   <groupId>${knowledge-groupid}</groupId>
+  <artifactId>knowledge-mongodb</artifactId>
+  <version>${knowledge.version}</version>
+  
+  
+  <dependencies>
+   <dependency>
+     <groupId>org.mongodb</groupId>
+     <artifactId>mongo-java-driver</artifactId>
+     <version>2.12.4</version>
+    </dependency>
+  </dependencies>
+  <build/>
+</project>

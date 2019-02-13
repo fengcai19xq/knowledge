@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">          <!-- Console output -->
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p %d{MM-dd HH:mm:ss} %m  (%F:%L) \n" />
+		</layout>
+	</appender>
+<!--
+	<appender name="FILE" class="org.apache.log4j.FileAppender">
+		<param name="File" value="C:/log4j1.log" />-->
+	<appender name="FILE" class="org.apache.log4j.RollingFileAppender">
+		<param name="file" value="${webapp.root}/log/knowledge.log" />
+		<param name="append" value="true" />
+		<param name="maxFileSize" value="10MB" />
+		<param name="maxBackupIndex" value="100" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d - %c -%-4r [%t] %-5p %x - %m%n" />
+		</layout>
+	</appender>
+	<logger name="java.sql">
+		<level value="debug" />
+	</logger>
+	<logger name="log4j.logger.org.mybatis.spring">
+		<level value="debug" />
+	</logger>
+	<logger name="org.apache.ibatis">
+		<level value="debug" />
+	</logger>
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>
+	
+</log4j:configuration>

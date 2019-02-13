@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <!-- 开启使用开发模式，详细错误提示 -->
+    <constant name="struts.devMode" value="false" />
+    
+    <package name="framework-default" extends="struts-default">
+    	<result-types>
+    		<result-type name="json" class="com.sky.knowledge.module.framework.server.web.result.json.JSONResult"/>
+    		<result-type name="jsonerror" class="com.sky.knowledge.module.framework.server.web.result.json.JsonErrorResult"/>
+    		<result-type name="jsontree" class="com.sky.knowledge.module.framework.server.web.result.json.JSONTreeResult"/>
+    		<result-type name="jsperror" class="com.sky.knowledge.module.framework.server.web.result.JSPErrorResult"/>
+    	</result-types>
+    	<interceptors>
+    	    <interceptor name="module" class="com.sky.knowledge.module.framework.server.deploy.struts.ModuleInterceptor"/>
+    		<interceptor name="error" class="com.sky.knowledge.module.framework.server.web.interceptor.ExceptionInterceptor"/>
+    		<interceptor name="security" class="com.sky.knowledge.module.framework.server.web.interceptor.SecurityInterceptor"/>
+    		<interceptor name="json" class="com.sky.knowledge.module.framework.server.web.interceptor.JSONInterceptor"/>
+    		<!--<interceptor name="validator" class="com.sky.knowledge.module.framework.server.web.interceptor.ValidationInterceptor"/>-->
+    		
+    		<interceptor-stack name="frameworkStack">
+    		    <interceptor-ref name="module"/>
+    			<interceptor-ref name="error"/>
+    			<interceptor-ref name="security"/>
+    			<interceptor-ref name="defaultStack"/>
+    			<interceptor-ref name="json"/>
+    			
+    			<!--<interceptor-ref name="validator"/>-->
+    		</interceptor-stack>
+    	</interceptors>
+    	<default-interceptor-ref name="frameworkStack"/>
+    </package>
+</struts>    

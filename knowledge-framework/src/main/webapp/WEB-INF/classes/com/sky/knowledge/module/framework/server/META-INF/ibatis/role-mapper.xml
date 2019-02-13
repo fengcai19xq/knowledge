@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sky.knowledge.module.framework.shared.domain.Role">
+
+	<!-- 角色与功能ID结果映射配置 -->
+	<resultMap id="detailRoleMap"
+		type="com.sky.knowledge.module.framework.shared.domain.Role">
+		<id property="id" column="MASTER_ID" />
+		<result property="roleName" column="MASTER_ROLENAME" />
+		<result property="roleDesc" column="MASTER_ROLEDESC" />
+		<result property="createUser" column="MASTER_CREATEUSER"
+			javaType="String" jdbcType="VARCHAR" />
+		<result property="createDate" column="MASTER_CREATEDATE"
+			javaType="Date" jdbcType="TIMESTAMP" />
+		<result property="modifyUser" column="MASTER_MODIFYUSER"
+			javaType="String" jdbcType="VARCHAR" />
+		<result property="modifyDate" column="MASTER_MODIFYDATE"
+			javaType="Date" jdbcType="TIMESTAMP" />
+		<collection property="functionIds" column="ENTRY_0_FUNCID" ofType="string">
+			<result column="ENTRY_0_FUNCID"/>
+		</collection>
+	</resultMap>
+	
+		<!-- 角色功能ID结果信息 -->
+	<sql id="detail_param">
+		MASTER.ID AS MASTER_ID,
+		MASTER.ROLENAME AS MASTER_ROLENAME,
+		MASTER.ROLEDESC AS MASTER_ROLEDESC,
+		MASTER.CREATEUSER AS MASTER_CREATEUSER,
+		MASTER.CREATEDATE AS MASTER_CREATEDATE,
+		MASTER.MODIFYUSER AS MASTER_MODIFYUSER,
+		MASTER.MODIFYDATE AS MASTER_MODIFYDATE,
+		ENTRY_0.FUNCID AS ENTRY_0_FUNCID
+	</sql>
+	
+<!-- 缓存加载所有角色与功能ID -->
+	<select id="getAllRole" resultMap="detailRoleMap">
+		<![CDATA[
+			SELECT 
+		]]>
+		<include refid="detail_param" />
+		<![CDATA[
+  			FROM T_AUTH_ROLE MASTER
+ 			INNER JOIN T_AUTH_FUNCTIONROLE ENTRY_0
+ 			ON ENTRY_0.ROLEID = MASTER.id
+		]]>
+	</select>
+	
+	<!-- 得到最后更新时间 -->
+	<select id="getLastModifyTime" resultType="date">
+		SELECT MAX(MODIFYDATE)
+		FROM T_AUTH_ROLE
+	</select>
+	
+</mapper>
