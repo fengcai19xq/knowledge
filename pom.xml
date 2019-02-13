@@ -50,7 +50,9 @@
       <timezone>-6</timezone>
     </developer>
   </developers>
-  
+
+<dependencyManagement>
+
   <dependencies>
     <dependency>
 	   <groupId>junit</groupId>
@@ -71,7 +73,7 @@
      <dependency>
        <groupId>org.springframework</groupId>
        <artifactId>spring-webmvc</artifactId>
-       <version>3.0.5.RELEASE</version>
+       <version>4.3.17.RELEASE</version>
     </dependency>
      <dependency>
      	<groupId>org.mybatis</groupId>
@@ -83,12 +85,12 @@
      	<artifactId>mybatis</artifactId>
      	<version>3.0.5</version>
      </dependency>
-     <dependency> 
+     <dependency>
      	<groupId>org.springframework</groupId>
      	<artifactId>spring-jdbc</artifactId>
      	<version>3.0.5.RELEASE</version>
      </dependency>
-     <dependency> 
+     <dependency>
      	<groupId>commons-dbcp</groupId>
      	<artifactId>commons-dbcp</artifactId>
      	<version>1.4</version>
@@ -98,7 +100,7 @@
       <artifactId>slf4j-log4j12</artifactId>
       <version>1.7.6</version>
     </dependency>
-    <!--  
+    <!--
      <dependency>
        <groupId>org.glassfish.main.persistence</groupId>
        <artifactId>glassfish-oracle-jdbc-driver-packages</artifactId>
@@ -181,7 +183,23 @@
 		<artifactId>jodd-bean</artifactId>
 		<version>3.5.2</version>
   </dependency>
+  <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>4.3.17.release</version>
+  </dependency>
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-beans</artifactId>
+          <version>4.3.17.RELEASE</version>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-context</artifactId>
+          <version>4.3.17.RELEASE</version>
+      </dependency>
   </dependencies>
+</dependencyManagement>
   <build>
      <!-- 配置额外资源 方法      <resources>
       <resource>
